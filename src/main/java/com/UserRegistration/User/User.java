@@ -1,6 +1,7 @@
 package com.UserRegistration.User;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "users")
@@ -9,16 +10,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "first_name",nullable = false,length = 50)
+    @NotEmpty(message = "First name cannot be empty")
+    @Column(name = "first_name",length = 50)
     private String first_name;
 
-    @Column(name = "last_name",nullable = false,length = 50)
+    @NotEmpty(message = "Last name cannot be empty")
+    @Column(name = "last_name",length = 50)
     private String last_name;
 
-    @Column(nullable = false,unique = true,length = 50)
+    @NotEmpty(message = "Email cannot be empty")
+    @Column(unique = true,length = 50)
     private String email;
 
-    @Column(nullable = false)
+    @NotEmpty(message = "Password cannot be empty")
     private String password;
 
     public long getId() {
