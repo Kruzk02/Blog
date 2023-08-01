@@ -15,20 +15,25 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-
-            <div th:if="${param.error}">
-                <div class="alert alert-danger">Email already exist</div>
-            </div>
-
             <div class="card">
                 <div class="card-header">
                     <h2 class="text-center">Register Form</h2>
                 </div>
+
+                <div th:if="${success}">
+                    <div class="alert alert-success" th:text="${success}"></div>
+                </div>
+                <script th:if="${success}">
+                    setTimeout(function() {
+                        window.location.href = '/login';
+                     }, 2000);
+                </script>
+
                 <div class="card-body">
                     <form
                             method="post"
                             role="form"
-                            th:action="@{/process_register}"
+                            th:action="@{/register?success}"
                             th:object="${user}"
                             class="form-horizontal"
                     >
@@ -37,10 +42,14 @@
                             <input
                                     type="text"
                                     id="first_name"
+                                    name="first_name"
                                     th:field="*{first_name}"
                                     class="form-control"
                                     placeholder="Enter first name"
+                                    required minlength="3"
                             />
+                            <p th:errors = "*{first_name}" class="text-danger"
+                               th:if="${#fields.hasErrors('first_name')}"></p>
                         </div>
 
                         <div class="form-group mb-3">
@@ -48,10 +57,14 @@
                             <input
                                     type="text"
                                     id="last_name"
+                                    name="last_name"
                                     th:field="*{last_name}"
                                     class="form-control"
                                     placeholder="Enter last name"
+                                    required minlength="3"
                             />
+                            <p th:errors = "*{first_name}" class="text-danger"
+                               th:if="${#fields.hasErrors('last_name')}"></p>
                         </div>
 
                         <div class="form-group mb-3">
@@ -59,10 +72,14 @@
                             <input
                                     type="text"
                                     id="email"
+                                    name="email"
                                     th:field="*{email}"
                                     class="form-control"
                                     placeholder="Enter email address"
+                                    required minlength="3"
                             />
+                            <p th:errors = "*{email}" class="text-danger"
+                               th:if="${#fields.hasErrors('email')}"></p>
                         </div>
 
                         <div class="form-group mb-3">
@@ -70,10 +87,14 @@
                             <input
                                     type="password"
                                     id="password"
+                                    name="password"
                                     th:field="*{password}"
                                     class="form-control"
                                     placeholder="Enter password"
+                                    required minlength="3"
                             />
+                            <p th:errors = "*{password}" class="text-danger"
+                               th:if="${#fields.hasErrors('password')}"></p>
                         </div>
 
                         <div class="form-group mb-3">
@@ -84,13 +105,14 @@
                                     class="form-control"
                                     placeholder="Enter password"
                                     onkeyup="check();"
+                                    required minlength="3"
                             />
                             <span id = 'message'> </span>
                         </div>
 
                         <div class="form-group mb-3">
                             <button type="submit" class="btn btn-primary" >Submit</button>
-                            <span> You already have a account ??
+                            <span> You already have an account ??
                                 <a th:href="@{/login}">SIGN IN</a>
                             </span>
                         </div>
@@ -101,7 +123,6 @@
     </div>
 </div>
 </body>
-
 <script>
     var check = function(){
         if(document.getElementById('password').value == document.getElementById('confirm_password').value){
