@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="ISO-8859-1">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-
+<div class="container-fluid p-1 mb-2 bg-dark text-white">
+    <div class="row align-content-end">
+        <div class="col">
+            <div class="form-group">
+                <a href="/register" class="btn btn-dark float-right">Register</a>
+                <a href="/login" class="btn btn-dark float-right">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
