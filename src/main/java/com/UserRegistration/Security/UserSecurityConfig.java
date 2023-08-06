@@ -10,13 +10,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class userSecurityConfig{
+public class UserSecurityConfig{
 
     @Autowired
     private DataSource dataSource;
@@ -41,7 +45,24 @@ public class userSecurityConfig{
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    RememberMeServices rememberMeServices(UserDetailsService userDetailsService) {
+        TokenBasedRememberMeServices.RememberMeTokenAlgorithm encodingAlgorithm = TokenBasedRememberMeServices.RememberMeTokenAlgorithm.SHA256;
+        TokenBasedRememberMeServices rememberMe = new TokenBasedRememberMeServices("uniqueAndSecret", userDetailsService, encodingAlgorithm);
+        rememberMe.setMatchingAlgorithm(TokenBasedRememberMeServices.RememberMeTokenAlgorithm.MD5);
+        rememberMe.setParameter("remember-me");
+        return rememberMe;
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository(){
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+
+        return tokenRepository;
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http,RememberMeServices rememberMeServices) throws Exception {
         http
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
@@ -52,6 +73,11 @@ public class userSecurityConfig{
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/")
                                 .permitAll()
+                ).rememberMe((remember)-> remember.
+                        rememberMeServices(rememberMeServices)
+                        .key("uniqueAndSecret")
+                        .tokenRepository(persistentTokenRepository())
+                        .tokenValiditySeconds(86400)
                 ).logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -59,4 +85,5 @@ public class userSecurityConfig{
                 );
         return http.build();
     }
+
 }
