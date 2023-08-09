@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Register System</title>
@@ -41,30 +39,30 @@
                             <label class="control-label"> First name</label>
                             <input
                                     type="text"
-                                    id="first_name"
-                                    name="first_name"
-                                    th:field="*{first_name}"
+                                    id="firstName"
+                                    name="firstName"
+                                    th:field="*{firstName}"
                                     class="form-control"
                                     placeholder="Enter first name"
                                     required minlength="3"
                             />
-                            <p th:errors = "*{first_name}" class="text-danger"
-                               th:if="${#fields.hasErrors('first_name')}"></p>
+                            <p th:errors = "*{firstName}" class="text-danger"
+                               th:if="${#fields.hasErrors('lastName')}"></p>
                         </div>
 
                         <div class="form-group mb-3">
                             <label class="control-label"> Last name</label>
                             <input
                                     type="text"
-                                    id="last_name"
-                                    name="last_name"
-                                    th:field="*{last_name}"
+                                    id="lastName"
+                                    name="lastName"
+                                    th:field="*{lastName}"
                                     class="form-control"
                                     placeholder="Enter last name"
                                     required minlength="3"
                             />
-                            <p th:errors = "*{first_name}" class="text-danger"
-                               th:if="${#fields.hasErrors('last_name')}"></p>
+                            <p th:errors = "*{lastName}" class="text-danger"
+                               th:if="${#fields.hasErrors('lastName')}"></p>
                         </div>
 
                         <div class="form-group mb-3">
@@ -134,5 +132,4 @@
         }
     }
 </script>
-
 </html>

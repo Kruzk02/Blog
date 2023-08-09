@@ -22,8 +22,11 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class UserSecurityConfig{
 
+    private final DataSource dataSource;
     @Autowired
-    private DataSource dataSource;
+    public UserSecurityConfig(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -73,11 +76,11 @@ public class UserSecurityConfig{
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/")
                                 .permitAll()
-                ).rememberMe((remember)-> remember.
-                        rememberMeServices(rememberMeServices)
-                        .key("uniqueAndSecret")
+                ).rememberMe((remember) -> remember
+                        .rememberMeServices(rememberMeServices)
                         .tokenRepository(persistentTokenRepository())
-                        .tokenValiditySeconds(86400)
+                        .key("uniqueAndSecret")
+                        .tokenValiditySeconds(2419200)
                 ).logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
