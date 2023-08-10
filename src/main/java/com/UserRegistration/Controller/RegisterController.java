@@ -4,6 +4,9 @@ import com.UserRegistration.Service.UserService;
 import com.UserRegistration.User.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,10 +22,13 @@ public class RegisterController {
     @Autowired public RegisterController(UserService service) {this.service = service;}
 
     @GetMapping("/register")
-    public String showRegistrationForm(Model model){
-        User user = new User();
-        model.addAttribute("user",user);
-        return "Register";
+    public String showRegistrationForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            model.addAttribute("user", new User());
+            return "register";
+        }
+        return "redirect:/";
     }
 
     @PostMapping("/register")
