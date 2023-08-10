@@ -32,7 +32,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUsers(@Valid @ModelAttribute("user") User user,
+    public String registerUsers(@Valid @ModelAttribute("user")User user,
                                 BindingResult result,
                                 RedirectAttributes attributes){
         User existingUser = service.findUserByEmail(user.getEmail());
@@ -40,6 +40,11 @@ public class RegisterController {
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null,
                     "There is already an account registered with the same email");
+        }
+
+        if(!user.getPassword().equals(user.getRetypePassword())){
+            result.rejectValue("retypePassword","error.retypePassword","Password do not match");
+            return "/register";
         }
 
         if (result.hasErrors()) {

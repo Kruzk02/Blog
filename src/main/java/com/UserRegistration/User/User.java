@@ -25,6 +25,9 @@ public class User {
     @NotEmpty(message = "Password cannot be empty")
     private String password;
 
+    @Transient
+    private String retypePassword;
+
     public long getId() {
         return id;
     }
@@ -63,5 +66,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRetypePassword() {
+        return retypePassword;
+    }
+
+    public void setRetypePassword(String retypePassword) {
+        this.retypePassword = retypePassword;
     }
 }
