@@ -18,6 +18,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
+/*
+ * Configuration class for defining security settings.
+ */
 @Configuration
 @EnableWebSecurity
 public class UserSecurityConfig{
@@ -28,16 +31,25 @@ public class UserSecurityConfig{
         this.dataSource = dataSource;
     }
 
+    /*
+     *  Custom UserDetailsService bean for loading user details during authentication.
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return new CustomUserDetailsService();
     }
 
+    /*
+     * BCryptPasswordEncoder bean for encoding and decoding passwords.
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /*
+     * DaoAuthenticationProvider bean for user authentication.
+     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -47,6 +59,9 @@ public class UserSecurityConfig{
         return authProvider;
     }
 
+    /*
+     * RememberMeServices bean for managing "Remember Me" function
+     */
     @Bean
     RememberMeServices rememberMeServices(UserDetailsService userDetailsService) {
         TokenBasedRememberMeServices.RememberMeTokenAlgorithm encodingAlgorithm = TokenBasedRememberMeServices.RememberMeTokenAlgorithm.SHA256;
@@ -56,6 +71,9 @@ public class UserSecurityConfig{
         return rememberMe;
     }
 
+    /*
+     * PersistentTokenRepository bean for managing persistent token.
+     */
     @Bean
     public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
@@ -64,6 +82,9 @@ public class UserSecurityConfig{
         return tokenRepository;
     }
 
+    /*
+     * SecurityFilterChain bean for configuring security.
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,RememberMeServices rememberMeServices) throws Exception {
         http

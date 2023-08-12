@@ -1,5 +1,7 @@
 package com.UserRegistration.Controller;
-
+/*
+ * This Controller class handling user registration operations.
+ */
 import com.UserRegistration.Service.UserService;
 import com.UserRegistration.User.User;
 import jakarta.validation.Valid;
@@ -19,8 +21,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class RegisterController {
 
     private final UserService service;
-    @Autowired public RegisterController(UserService service) {this.service = service;}
 
+    /*
+     * Constructor to initialize the RegisterController with a UserService.
+     */
+    @Autowired public RegisterController(UserService service) {
+        this.service = service;
+    }
+
+    /*
+     * Display the user registration form.
+     * If the user is not authenticated, the registration form is show.
+     */
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -31,6 +43,10 @@ public class RegisterController {
         return "redirect:/";
     }
 
+    /*
+     * Process user registration form submission.
+     * Validates user input , check for existing accounts and handles registration.
+     */
     @PostMapping("/register")
     public String registerUsers(@Valid @ModelAttribute("user")User user,
                                 BindingResult result,
@@ -38,7 +54,7 @@ public class RegisterController {
         User existingUser = service.findUserByEmail(user.getEmail());
 
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
-            result.rejectValue("email", null,
+            result.rejectValue("email", "email",
                     "There is already an account registered with the same email");
         }
 
