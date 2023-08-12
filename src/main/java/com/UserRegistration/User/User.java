@@ -1,6 +1,7 @@
 package com.UserRegistration.User;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
@@ -20,6 +21,7 @@ public class User {
 
     @NotEmpty(message = "Email cannot be empty")
     @Column(unique = true,length = 50)
+    @Email(message = "Invalid email format")
     private String email;
 
     @NotEmpty(message = "Password cannot be empty")
