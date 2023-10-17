@@ -1,6 +1,6 @@
 package com.UserRegistration.Service;
 
-import com.UserRegistration.User.User;
+import com.UserRegistration.Model.User;
 
 public interface IUserService {
     User saveUser(User user);

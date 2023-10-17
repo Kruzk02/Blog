@@ -1,7 +1,7 @@
 package com.UserRegistration;
 
 import com.UserRegistration.Repository.UserRepository;
-import com.UserRegistration.User.User;
+import com.UserRegistration.Model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

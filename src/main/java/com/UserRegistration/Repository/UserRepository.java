@@ -1,6 +1,6 @@
 package com.UserRegistration.Repository;
 
-import com.UserRegistration.User.User;
+import com.UserRegistration.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

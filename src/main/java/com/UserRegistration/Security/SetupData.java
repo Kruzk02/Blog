@@ -42,8 +42,8 @@ public class SetupData implements ApplicationListener<ContextRefreshedEvent> {
         user.setFirstName("phuc");
         user.setLastName("nguyen");
         user.setEmail("phucnguyen@gmail.com");
-        user.setPassword("123123");
-        user.setRetypePassword("123123");
+        user.setPassword(passwordEncoder.encode("123123"));
+        user.setPassword(passwordEncoder.encode("123123"));
         user.setRoles(Arrays.asList(adminRole));
         userRepository.save(user);
 

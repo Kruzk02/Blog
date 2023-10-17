@@ -3,7 +3,7 @@ package com.UserRegistration.Controller;
  * This Controller class handling user registration operations.
  */
 import com.UserRegistration.Service.UserService;
-import com.UserRegistration.User.User;
+import com.UserRegistration.Model.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

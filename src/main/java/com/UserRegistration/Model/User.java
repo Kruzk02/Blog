@@ -1,8 +1,10 @@
-package com.UserRegistration.User;
+package com.UserRegistration.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
@@ -29,6 +31,29 @@ public class User {
 
     @Transient
     private String retypePassword;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
+
+    public User(long id, String firstName, String lastName, String email, String password, String retypePassword, Collection<Role> roles) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.retypePassword = retypePassword;
+        this.roles = roles;
+    }
+
+    public User() {
+    }
+
 
     public long getId() {
         return id;
@@ -76,5 +101,13 @@ public class User {
 
     public void setRetypePassword(String retypePassword) {
         this.retypePassword = retypePassword;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 }
