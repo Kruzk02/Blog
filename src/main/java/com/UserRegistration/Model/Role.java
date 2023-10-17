@@ -29,6 +29,10 @@ public class Role {
     public Role() {
     }
 
+    public Role(String name) {
+        this.name = name;
+    }
+
     public Role(long id, String name, Collection<User> users, Collection<Privilege> privileges) {
         this.id = id;
         this.name = name;
