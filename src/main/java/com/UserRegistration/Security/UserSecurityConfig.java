@@ -4,10 +4,12 @@ import com.UserRegistration.Service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +29,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableWebSecurity
+@PropertySource("application.properties")
 public class UserSecurityConfig{
 
     private final DataSource dataSource;
@@ -110,14 +113,17 @@ public class UserSecurityConfig{
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers(HttpMethod.GET,"/roleHierarchy")
                                 .hasRole("STAFF")
-                                .requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/").permitAll()
-                ).formLogin(
-                        form -> form
-                                .loginPage("/login")
-                                .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/")
-                                .permitAll()
+//                                .requestMatchers("/register/**").permitAll()
+//                                .requestMatchers("/").permitAll()
+                                .anyRequest().permitAll()
+//                ).formLogin(
+//                        form -> form
+//                                .loginPage("/login")
+//                                .loginProcessingUrl("/login")
+//                                .defaultSuccessUrl("/")
+//                                .permitAll()
+                ).formLogin(Customizer.withDefaults()
+                ).oauth2Login(Customizer.withDefaults()
                 ).rememberMe((remember) -> remember
                         .rememberMeServices(rememberMeServices)
                         .tokenRepository(persistentTokenRepository())
