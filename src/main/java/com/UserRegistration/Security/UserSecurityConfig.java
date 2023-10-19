@@ -116,14 +116,16 @@ public class UserSecurityConfig{
 //                                .requestMatchers("/register/**").permitAll()
 //                                .requestMatchers("/").permitAll()
                                 .anyRequest().permitAll()
-//                ).formLogin(
-//                        form -> form
-//                                .loginPage("/login")
-//                                .loginProcessingUrl("/login")
-//                                .defaultSuccessUrl("/")
-//                                .permitAll()
-                ).formLogin(Customizer.withDefaults()
-                ).oauth2Login(Customizer.withDefaults()
+                ).formLogin(
+                        form -> form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/login")
+                                .defaultSuccessUrl("/",true)
+                                .permitAll()
+                ).oauth2Login(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/",true)
+                        .permitAll()
                 ).rememberMe((remember) -> remember
                         .rememberMeServices(rememberMeServices)
                         .tokenRepository(persistentTokenRepository())

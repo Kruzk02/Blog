@@ -14,10 +14,17 @@ public class HomeController {
     @GetMapping("/")
     public String index(Model model, Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
-            DefaultOidcUser oidcUser = (DefaultOidcUser) authentication.getPrincipal();
-            CustomUserDetails customUserDetails = new CustomUserDetails(oidcUser);
-            String user = customUserDetails.getUsername();
-            model.addAttribute("firstName", user);
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof DefaultOidcUser) {
+                DefaultOidcUser oidcUser = (DefaultOidcUser) principal;
+                CustomUserDetails customUserDetails = new CustomUserDetails(oidcUser);
+                String user = customUserDetails.getUsername();
+                model.addAttribute("firstName", user);
+            } else if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                String user = userDetails.getUsername();
+                model.addAttribute("firstName", user);
+            }
         }
         return "index";
     }
