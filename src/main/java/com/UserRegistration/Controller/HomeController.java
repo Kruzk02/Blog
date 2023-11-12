@@ -1,6 +1,7 @@
 package com.UserRegistration.Controller;
 
 import com.UserRegistration.Service.CustomUserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
@@ -27,5 +28,11 @@ public class HomeController {
             }
         }
         return "index";
+    }
+
+    @GetMapping("/roleHierarchy")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String role(){
+        return "Role";
     }
 }
