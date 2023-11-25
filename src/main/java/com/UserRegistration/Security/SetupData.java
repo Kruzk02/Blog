@@ -39,8 +39,7 @@ public class SetupData implements ApplicationListener<ContextRefreshedEvent> {
 
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         User user = new User();
-        user.setFirstName("phuc");
-        user.setLastName("nguyen");
+        user.setUsername("thienphuc");
         user.setEmail("phucnguyen@gmail.com");
         user.setPassword(passwordEncoder.encode("123123"));
         user.setRoles(Arrays.asList(adminRole));

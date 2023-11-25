@@ -113,11 +113,6 @@ public class UserSecurityConfig{
     }
 
     @Bean
-    public ClientRegistrationRepository registrationRepository(){
-        return new InMemoryClientRegistrationRepository(googleClientRegistration());
-    }
-
-    @Bean
     public OAuth2AuthorizedClientService authorizedClientService(ClientRegistrationRepository clientRegistrationRepository){
         return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
     }
@@ -125,13 +120,6 @@ public class UserSecurityConfig{
     @Bean
     public OAuth2AuthorizedClientRepository authorizedClientRepository(OAuth2AuthorizedClientService oAuth2AuthorizedClientService){
         return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(oAuth2AuthorizedClientService);
-    }
-
-    private ClientRegistration googleClientRegistration(){
-        return CommonOAuth2Provider.GOOGLE.getBuilder("google")
-                .clientId("234488550973-tca7kpcdhqtpn1de1rk0vdrgoj1ngp0f.apps.googleusercontent.com")
-                .clientSecret("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")
-                .build();
     }
 
     /*
@@ -152,11 +140,6 @@ public class UserSecurityConfig{
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/",true)
                                 .permitAll()
-                ).oauth2Login(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/",true)
-                        .permitAll()
-
                 ).rememberMe((remember) -> remember
                         .rememberMeServices(rememberMeServices)
                         .tokenRepository(persistentTokenRepository())

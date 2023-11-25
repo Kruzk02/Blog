@@ -9,13 +9,13 @@
 
 <div class="container-fluid p-1 mb-2 bg-dark text-white">
     <div class="d-flex flex-row-reverse">
-        <div th:unless="${firstName}" class="d-flex justify-content-end">
+        <div th:unless="${username}" class="d-flex justify-content-end">
             <a href="/login" class="btn btn-dark float-right">Login</a>
             <a href="/register" class="btn btn-dark float-right">Register</a>
         </div>
-        <div th:if="${firstName}" class="d-flex flex-column align-items-center justify-content-center">
+        <div th:if="${username}" class="d-flex flex-column align-items-center justify-content-center">
             <a href="/logout" class="btn btn-dark float-right">Logout</a>
-            <p class="text-center mt-2">Welcome, <span th:text="${firstName}"></span>!</p>
+            <p class="text-center mt-2">Welcome, <span th:text="${username}"></span>!</p>
         </div>
     </div>
 </div>

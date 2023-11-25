@@ -1,7 +1,5 @@
 package com.UserRegistration.Controller;
 
-import com.UserRegistration.Service.CustomUserDetails;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
@@ -16,23 +14,12 @@ public class HomeController {
     public String index(Model model, Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
-            if (principal instanceof DefaultOidcUser) {
-                DefaultOidcUser oidcUser = (DefaultOidcUser) principal;
-                CustomUserDetails customUserDetails = new CustomUserDetails(oidcUser);
-                String user = customUserDetails.getUsername();
-                model.addAttribute("firstName", user);
-            } else if (principal instanceof UserDetails) {
+            if (principal instanceof UserDetails) {
                 UserDetails userDetails = (UserDetails) principal;
                 String user = userDetails.getUsername();
-                model.addAttribute("firstName", user);
+                model.addAttribute("username", user);
             }
         }
         return "index";
-    }
-
-    @GetMapping("/roleHierarchy")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String role(){
-        return "Role";
     }
 }

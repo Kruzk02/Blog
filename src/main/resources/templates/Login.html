@@ -28,7 +28,7 @@
                             class="form-horizontal"
                     >
                         <div class="form-group mb-3">
-                            <label class="form-label" for="username">Email</label>
+                            <label class="form-label" for="username">Username</label>
                             <input
                                     type="text"
                                     id="username"
@@ -65,9 +65,6 @@
                         <button type="submit" class="btn btn-primary btn-block mb-4" >Submit</button>
                         <div class="text-center">
                             <p>Not a member? <a th:href="@{/register}">Register</a></p>
-                            <p>or sign up with:</p>
-
-                            <a th:href="@{/oauth2/authorization/google}" class="fab fa-google">Google</a>
                         </div>
                     </form>
                 </div>

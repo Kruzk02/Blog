@@ -13,13 +13,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "First name cannot be empty")
-    @Column(name = "first_name",length = 50)
-    private String firstName;
-
-    @NotEmpty(message = "Last name cannot be empty")
-    @Column(name = "last_name",length = 50)
-    private String lastName;
+    @NotEmpty(message = "username cannot be empty")
+    @Column(name = "username",length = 50)
+    private String username;
 
     @NotEmpty(message = "Email cannot be empty")
     @Column(unique = true,length = 50)
@@ -41,10 +37,9 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
-    public User(long id, String firstName, String lastName, String email, String password, String retypePassword, Collection<Role> roles) {
+    public User(long id, String username, String email, String password, String retypePassword, Collection<Role> roles) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.username = username;
         this.email = email;
         this.password = password;
         this.retypePassword = retypePassword;
@@ -63,20 +58,12 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
