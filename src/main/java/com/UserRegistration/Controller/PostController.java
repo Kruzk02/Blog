@@ -6,6 +6,7 @@ import com.UserRegistration.Service.PostService;
 import com.UserRegistration.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,8 +35,8 @@ public class PostController {
 
     @GetMapping("/post/{id}")
     public String getPost(@PathVariable("id") long id, Model model){
-        Optional<Post> post = postService.getByID(id);
-        if(post.isEmpty()){
+        Post post = postService.getByID(id);
+        if(post == null){
             return "postNotFound";
         }
         model.addAttribute("post",post);
@@ -44,25 +45,32 @@ public class PostController {
 
     @GetMapping("/post/new")
     public String showCreatePost(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+            return "redirect:/";
+        }
         model.addAttribute("post",new Post());
-        return "newPost";
+        return "postForm";
     }
 
     @PostMapping("/post/new")
-    public String createPost(@Valid @ModelAttribute Post post,BindingResult bindingResult){
+    public String createPost(@Valid @ModelAttribute("post") Post post,Model model,BindingResult bindingResult,Principal principal){
         if (bindingResult.hasErrors()) {
-            return "newPost";
+            model.addAttribute("post",post);
+            return "postForm";
         }
+        User user = userService.findUserByUsername(principal.getName());
+
+        post.setUser(user);
         postService.save(post);
-        return "redirect:/" + post.getId();
+        return "redirect:/";
     }
 
     @GetMapping("/post/delete/{id}")
     public String deletePost(@PathVariable Long id){
-        Optional<Post> optionalPost = postService.getByID(id);
-        if(optionalPost.isPresent()){
-            Post post = optionalPost.get();
-            postService.delete(post);
+        Post optionalPost = postService.getByID(id);
+        if(optionalPost != null){
+            postService.delete(optionalPost);
             return "redirect:/";
         }else{
             return "error";

@@ -1,4 +1,4 @@
-package com.UserRegistration.Security;
+package com.UserRegistration.Config;
 
 import com.UserRegistration.Model.Privilege;
 import com.UserRegistration.Model.Role;
@@ -10,7 +10,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -37,13 +36,13 @@ public class SetupData implements ApplicationListener<ContextRefreshedEvent> {
         createRoleIfNotFound("ROLE_ADMIN",adminPrivilege);
         createRoleIfNotFound("ROLE_USER",Arrays.asList(readPrivilege));
 
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-        User user = new User();
-        user.setUsername("thienphuc");
-        user.setEmail("phucnguyen@gmail.com");
-        user.setPassword(passwordEncoder.encode("123123"));
-        user.setRoles(Arrays.asList(adminRole));
-        userRepository.save(user);
+//        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+//        User user = new User();
+//        user.setUsername("thienphuc");
+//        user.setEmail("phucnguyen@gmail.com");
+//        user.setPassword(passwordEncoder.encode("123123"));
+//        user.setRoles(Arrays.asList(adminRole));
+//        userRepository.save(user);
 
         alreadySetup = true;
     }

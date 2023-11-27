@@ -22,8 +22,8 @@ public class PostService implements IPostService{
     }
 
     @Override
-    public Optional<Post> getByID(long id) {
-        return repository.findById(id);
+    public Post getByID(long id) {
+        return repository.findById(id).orElse(null);
     }
 
     @Override

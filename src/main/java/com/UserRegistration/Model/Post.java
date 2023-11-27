@@ -33,7 +33,6 @@ public class Post {
     @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private Collection<Comment> comments;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id",referencedColumnName = "id",nullable = false)
     private User user;
