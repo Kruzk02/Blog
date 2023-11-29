@@ -9,16 +9,17 @@
 
     <h2>Write new comment</h2>
 
-    <form th:action="@{'/comment'}" th:object="${comment}" method="post">
+    <form th:action="@{/comment}" th:object="${comment}" method="post">
 
-        <div class="alert-red" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Body Error</div>
-
+        <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Body Error</div>
+        <input type="hidden" th:field="*{post}" th:value="${comment.post}" />
+        <input type="hidden" th:field="*{user}" th:value="${comment.user}" />
         <label>
             <textarea th:field="*{content}" placeholder="Write something valuable"></textarea>
         </label>
 
         <div>
-            <button class="green-btn" type="submit">Send</button>
+            <button class="green-btn" type="submit">Submit</button>
         </div>
     </form>
 </div>

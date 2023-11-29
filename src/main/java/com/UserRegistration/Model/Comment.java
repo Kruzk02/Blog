@@ -24,12 +24,10 @@ public class Comment {
     @Column(name = "create_at",nullable = false)
     private Date createAt;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "post_id",referencedColumnName = "id",nullable = false)
     private Post post;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id",referencedColumnName = "id",nullable = false)
     private User user;

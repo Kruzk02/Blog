@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -42,8 +43,10 @@ public class CommentController {
         }
         User user = this.userService.findUserByUsername(authentication.getName());
         Post post = this.postService.getByID(id);
-        if(post != null){
+        if(post != null && user != null){
             Comment comment = new Comment();
+            comment.setPost(post);
+            comment.setUser(user);
             model.addAttribute("comment",comment);
             System.err.println("GET comment/"+id);
             return "comment";
@@ -54,14 +57,17 @@ public class CommentController {
     }
 
     @PostMapping("/comment")
-    public String comment(@Valid @ModelAttribute Comment comment, BindingResult bindingResult,Principal principal){
+    public String comment(@Valid @ModelAttribute Comment comment, BindingResult bindingResult, Principal principal){
         System.err.println("POST comment: " + comment);
+        System.err.println("Binding Result: " + bindingResult);
+        System.err.println("Principal: " + principal);
+
         if (bindingResult.hasErrors()) {
-            System.err.println("Comment did not validate");
+            System.err.println("Errors found. Cannot save comment: " + comment.getUser() + comment.getPost());
             return "comment";
         }
+
         this.commentService.save(comment);
-        System.err.println("SAVE comment: " + comment);
         return "redirect:/post/" + comment.getPost().getId();
     }
 }
