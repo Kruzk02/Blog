@@ -127,20 +127,16 @@ public class UserSecurityConfig{
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers(HttpMethod.GET,"/roleHierarchy")
                                 .hasRole("STAFF")
-//                                .requestMatchers("/register/**").permitAll()
-//                                .requestMatchers("/").permitAll()
-                                .anyRequest().permitAll()
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/register").permitAll()
+                                .requestMatchers("/login").permitAll()
+                                .anyRequest().authenticated()
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/",true)
                                 .permitAll()
-                ).rememberMe((remember) -> remember
-                        .rememberMeServices(rememberMeServices)
-                        .tokenRepository(persistentTokenRepository())
-                        .key("uniqueAndSecret")
-                        .tokenValiditySeconds(2419200)
                 ).logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

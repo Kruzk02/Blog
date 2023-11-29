@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Post Details</title>
+</head>
+<body>
+
+<h2>Post Details</h2>
+
+<div th:if="${post != null}">
+    <p><strong>Title:</strong> <span th:text="${post.title}"></span></p>
+    <p><strong>Content:</strong> <span th:text="${post.content}"></span></p>
+    <p><strong>Created At:</strong> <span th:text="${#dates.format(post.createAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+
+    <div th:if="${post.user != null}">
+        <p><strong>User:</strong> <span th:text="${post.user.username}"></span></p>
+    </div>
+</div>
+
+<div class="comments">
+    <h2>Comments</h2>
+    <div class="comment" th:each="comment : ${post.comments}">
+        <h5 th:text="'Commented on ' + ${#dates.format(post.creationDate, 'yyyy-MM-dd')} + ' by ' + ${comment.user.username}">Comment date and by whom</h5>
+        <p th:text="${comment.content}">Body</p>
+    </div>
+</div>
+<div class="align-center">
+    <a th:href="@{'/comment/{id}'(id=${post.id})}">
+        <button class="green-btn" type="button">Comment Post</button>
+    </a>
+</div>
+
+</body>
+</html>
