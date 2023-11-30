@@ -2,33 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Post Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-
-<h2>Post Details</h2>
-
-<div th:if="${post != null}">
-    <p><strong>Title:</strong> <span th:text="${post.title}"></span></p>
-    <p><strong>Content:</strong> <span th:text="${post.content}"></span></p>
-    <p><strong>Created At:</strong> <span th:text="${#dates.format(post.createAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-
-    <div th:if="${post.user != null}">
-        <p><strong>User:</strong> <span th:text="${post.user.username}"></span></p>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Blog</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <div th:unless="${username}">
+                    <a href="/login" class="btn btn-dark float-right">Login</a>
+                    <a href="/register" class="btn btn-dark float-right">Register</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div th:if="${username}">
+                    <a href="/logout" class="btn btn-dark float-right">Logout</a>
+                    <p class="text-white">Welcome, <span th:text="${username}"></span>!</p>
+                </div>
+            </li>
+        </ul>
     </div>
-</div>
+</nav>
 
-<div class="comments">
-    <h2>Comments</h2>
-    <div class="comment" th:each="comment : ${post.comments}">
-        <h5 th:text="'Commented on ' + ${#dates.format(post.createAt, 'yyyy-MM-dd')} + ' by ' + ${comment.user.username}">Comment date and by whom</h5>
-        <p th:text="${comment.content}">content</p>
+<main class="container mt-4">
+    <div class="card mb-4">
+        <div th:if="${post != null}">
+            
+            <div th:if="${post.user != null}">
+                <span th:text="'Posted by: ' + ${post.user.username}">Username</span>
+                <span th:text="'Create At:'+${#dates.format(post.createAt, 'yyyy-MM-dd')}">Create At:</span>
+            </div>
+            <h3> <span th:text="${post.title}"><strong>Title</strong></span></h3>
+            <span th:text="${post.content}">Content</span>
+        </div>
     </div>
-</div>
-<div class="align-center">
-    <a th:href="@{/comment/{id}(id=${post.id})}">
-        <button class="green-btn" type="button">Comment Post</button>
-    </a>
-</div>
-
+    <div class="card mb-4">
+        <div class="comments">
+            <h2>Comments</h2>
+            <div class="comment" th:each="comment : ${post.comments}">
+                <h5 th:text="'Commented on ' + ${#dates.format(post.createAt, 'yyyy-MM-dd')} + ' by ' + ${comment.user.username}">Comment date and by whom</h5>
+                <p th:text="${comment.content}">content</p>
+            </div>
+        </div>
+        <div class="align-center">
+            <a th:href="@{/comment/{id}(id=${post.id})}">
+                <button class="green-btn" type="button">Comment Post</button>
+            </a>
+        </div>    
+    </div>    
+</main>
 </body>
 </html>

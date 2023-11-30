@@ -36,33 +36,18 @@
                             class="form-horizontal"
                     >
                         <div class="form-group mb-3">
-                            <label class="control-label"> First name</label>
+                            <label class="control-label">Username</label>
                             <input
                                     type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    th:field="*{firstName}"
+                                    id="username"
+                                    name="username"
+                                    th:field="*{username}"
                                     class="form-control"
-                                    placeholder="Enter first name"
+                                    placeholder="Enter Username"
                                     required minlength="3"
                             />
-                            <p th:errors = "*{firstName}" class="text-danger"
-                               th:if="${#fields.hasErrors('lastName')}"></p>
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label class="control-label"> Last name</label>
-                            <input
-                                    type="text"
-                                    id="lastName"
-                                    name="lastName"
-                                    th:field="*{lastName}"
-                                    class="form-control"
-                                    placeholder="Enter last name"
-                                    required minlength="3"
-                            />
-                            <p th:errors = "*{lastName}" class="text-danger"
-                               th:if="${#fields.hasErrors('lastName')}"></p>
+                            <p th:errors = "*{username}" class="text-danger"
+                               th:if="${#fields.hasErrors('username')}"></p>
                         </div>
 
                         <div class="form-group mb-3">
