@@ -1,4 +1,4 @@
 # Blog
 
 ## Description
- - This project was originally a login and register and has been transformed into a blog project.
+ - Build a simple blog web app using spring and thymeleaf.
