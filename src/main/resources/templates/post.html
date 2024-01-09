@@ -35,6 +35,9 @@
             </div>
             <h3> <span th:text="${post.title}"><strong>Title</strong></span></h3>
             <span th:text="${post.content}">Content</span>
+            <a th:href="@{/post/delete/{id}(id=${post.id})}">
+                <button class="btn btn-danger">Delete Post</button>
+            </a>
         </div>
     </div>
     <div class="card mb-4">

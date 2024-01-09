@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,14 @@ public class CommentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
             return "redirect:/";
+        }
+        if(authentication.isAuthenticated()){
+            Object principal = authentication.getPrincipal();
+            if (principal != null){
+                UserDetails userDetails = (UserDetails) principal;
+                String user = userDetails.getUsername();
+                model.addAttribute("username", user);
+            }
         }
         User user = this.userService.findUserByUsername(authentication.getName());
         Post post = this.postService.getByID(id);

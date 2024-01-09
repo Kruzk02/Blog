@@ -35,6 +35,15 @@ public class PostController {
 
     @GetMapping("/post/{id}")
     public String getPost(@PathVariable("id") long id, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null && authentication.isAuthenticated()){
+            Object principal = authentication.getPrincipal();
+            if (principal != null){
+                UserDetails userDetails = (UserDetails) principal;
+                String user = userDetails.getUsername();
+                model.addAttribute("username", user);
+            }
+        }
         Post post = postService.getByID(id);
         if(post == null){
             return "postNotFound";
@@ -45,9 +54,18 @@ public class PostController {
 
     @GetMapping("/post/new")
     public String showCreatePost(Model model){
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
             return "redirect:/";
+        }
+        if(authentication.isAuthenticated()){
+            Object principal = authentication.getPrincipal();
+            if (principal != null){
+                UserDetails userDetails = (UserDetails) principal;
+                String user = userDetails.getUsername();
+                model.addAttribute("username", user);
+            }
         }
         model.addAttribute("post",new Post());
         return "postForm";
